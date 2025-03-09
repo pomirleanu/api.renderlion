@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    'diffbot' => [
+        'token' => env('DIFFBOT_API_TOKEN'),
+    ],
+    'openai' => [
+        'assistant_id' => env('OPENAI_ASSISTANT_ID'),
+        'assistant_id_type' => env('OPENAI_ASSISTANT_ID_TYPE'),
+        'assistant_id_product' => env('OPENAI_ASSISTANT_ID_PRODUCT'),
+        'assistant_id_products' => env('OPENAI_ASSISTANT_ID_PRODUCTS'),
+        'assistant_id_list' => env('OPENAI_ASSISTANT_ID_LIST'),
+        'assistant_id_article' => env('OPENAI_ASSISTANT_ID_ARTICLE'),
+        'assistant_id_florin' => env('OPENAI_ASSISTANT_ID_FLORIN'),
+    ],
+
 ];

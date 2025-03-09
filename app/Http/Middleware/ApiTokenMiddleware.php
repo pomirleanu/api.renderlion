@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Models\ApiToken;
 use Closure;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,18 +18,30 @@ class ApiTokenMiddleware
     public function handle(Request $request, Closure $next, ...$abilities)
     {
         if (!$request->bearerToken()) {
-            throw new AuthenticationException('API token not provided');
+            return response()->json([
+                'success' => false,
+                'message' => 'API token not provided',
+                'error' => 'authentication_error'
+            ], 401);
         }
 
         $token = hash('sha256', $request->bearerToken());
         $apiToken = ApiToken::where('token', $token)->first();
 
         if (!$apiToken) {
-            throw new AuthenticationException('Invalid API token');
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid API token',
+                'error' => 'authentication_error'
+            ], 401);
         }
 
         if ($apiToken->expires_at && now()->gt($apiToken->expires_at)) {
-            throw new AuthenticationException('API token has expired');
+            return response()->json([
+                'success' => false,
+                'message' => 'API token has expired',
+                'error' => 'token_expired'
+            ], 401);
         }
 
         $apiToken->update(['last_used_at' => now()]);
@@ -47,6 +58,11 @@ class ApiTokenMiddleware
             }
         }
 
-        throw new AuthenticationException('Token does not have the required abilities');
+        return response()->json([
+            'success' => false,
+            'message' => 'Token does not have the required abilities',
+            'error' => 'insufficient_permissions',
+            'required_ability' => $abilities
+        ], 403);
     }
 }
