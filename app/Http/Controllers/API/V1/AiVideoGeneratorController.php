@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessDiffbotData;
 use App\Models\VideoGenerationJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

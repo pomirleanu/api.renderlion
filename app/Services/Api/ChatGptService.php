@@ -2,9 +2,10 @@
 
 namespace App\Services\Api;
 
+use App\Contracts\ChatGptServiceInterface;
 use OpenAI\Laravel\Facades\OpenAI;
 
-class ChatGpt
+class ChatGptService implements ChatGptServiceInterface
 {
     public function getStandardizedJson($parsedJson, $assistantId)
     {

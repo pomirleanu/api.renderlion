@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Contracts\DiffbotServiceInterface;
 use App\Models\VideoGenerationJob;
-use App\Services\Contracts\DiffbotServiceInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,7 +15,7 @@ class ProcessDiffbotData implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $jobRecord;
+    protected VideoGenerationJob $jobRecord;
 
     /**
      * Create a new job instance.
@@ -47,9 +47,10 @@ class ProcessDiffbotData implements ShouldQueue
             ]);
 
             // Dispatch the next job in the workflow
-            ProcessChatGptData::dispatch($this->jobRecord);
-
+//            ProcessChatGptType::dispatch($this->jobRecord);
         } catch (Throwable $e) {
+            \Log::error($e->getMessage());
+
             $this->handleFailure($e);
         }
     }

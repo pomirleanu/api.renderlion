@@ -2,7 +2,7 @@
 
 namespace App\Services\Api;
 
-use App\Services\Contracts\DiffbotServiceInterface;
+use App\Contracts\DiffbotServiceInterface;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
